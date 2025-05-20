@@ -1,0 +1,88 @@
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">Available Tracks</h2>
+
+            <!-- Track Selection Dropdown -->
+            <div class="mb-4">
+                <select class="form-select" (change)="onTrackSelect($any($event.target).value)">
+                    <option value="">Select a Track</option>
+                    @for (track of tracks; track track.id) {
+                        <option [ngValue]="track">{{ track.name }}</option>
+                    }
+                </select>
+            </div>
+
+            <!-- Selected Track Card -->
+            @if (selectedTrack()) {
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+                    <div class="card shadow selected-track-card">
+                        <div class="card-body">
+                            <h3 class="card-title mb-4">{{ selectedTrack()?.name }}</h3>
+
+                            <div class="mb-4">
+                                <h5 class="text-muted mb-3">Course Details</h5>
+                                <p class="mb-2">
+                                    <i class="bi bi-clock me-2"></i>
+                                    <strong>Duration:</strong> {{ selectedTrack()?.duration }}
+                                </p>
+                                <p class="mb-2">
+                                    <i class="bi bi-person me-2"></i>
+                                    <strong>Instructor:</strong> {{ selectedTrack()?.instructor }}
+                                </p>
+                            </div>
+
+                            <div class="mb-4">
+                                <h5 class="text-muted mb-3">Topics Covered</h5>
+                                <div class="d-flex flex-wrap gap-2">
+                                    @for (topic of selectedTrack()?.topics; track topic) {
+                                    <span class="badge bg-primary">{{ topic }}</span> }
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <h5 class="text-muted mb-3">Description</h5>
+                                <p class="card-text">{{ selectedTrack()?.description }}</p>
+                            </div>
+
+                            <button class="btn btn-primary" (click)="selectedTrack.set(null)">
+                                    <i class="bi bi-x-circle me-2"></i>Close Track
+                                </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            } @else {
+            <!-- All Tracks Overview -->
+            <div class="row g-4">
+                @for (track of tracks; track track.id) {
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ track.name }}</h5>
+                            <p class="text-muted mb-2">
+                                <i class="bi bi-clock"></i> {{ track.duration }}
+                            </p>
+                            <p class="text-muted mb-3">
+                                <i class="bi bi-person"></i> {{ track.instructor }}
+                            </p>
+
+                            <!-- Topics -->
+                            <div class="mb-3">
+                                @for (topic of track.topics; track topic) {
+                                <span class="badge bg-primary me-1 mb-1">{{ topic }}</span> }
+                            </div>
+
+                            <button class="btn btn-outline-primary btn-sm" (click)="onTrackSelect(track)">
+                                        View Details
+                                    </button>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="cart-summary">
+    <h3>Cart Summary</h3>
+    <div *ngIf="cartItems.length === 0" class="empty-cart">
+        Your cart is empty
+    </div>
+    <div *ngIf="cartItems.length > 0">
+        <div class="cart-items">
+            <div *ngFor="let item of cartItems" class="cart-item">
+                <img [src]="item.product.imageUrl" [alt]="item.product.name" class="cart-item-image">
+                <div class="cart-item-details">
+                    <h5>{{ item.product.name }}</h5>
+                    <p>Price: ${{ item.product.price }}</p>
+                    <div class="quantity-controls">
+                        <button (click)="updateQuantity(item.product.id, item.quantity - 1)" [disabled]="item.quantity <= 1">-</button>
+                        <span>{{ item.quantity }}</span>
+                        <button (click)="updateQuantity(item.product.id, item.quantity + 1)" [disabled]="item.quantity >= item.product.amount">+</button>
+                    </div>
+                </div>
+                <button class="remove-btn" (click)="removeItem(item.product.id)">×</button>
+            </div>
+        </div>
+        <div class="cart-total">
+            <h4>Total: ${{ cartTotal | number:'1.2-2' }}</h4>
+            <button class="btn btn-primary" (click)="checkout()">Checkout</button>
+        </div>
+    </div>
+</div>
